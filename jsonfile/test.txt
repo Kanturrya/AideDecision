@@ -1,0 +1,105 @@
+[
+  {
+    "num_rule": "1",
+    "rules": 
+    [
+      [
+        1,
+        {
+          "facts":
+          [
+            {
+              "ID": "1",
+              "fact": "TEST1"
+            },
+            {
+              "ID": "2",
+              "fact": "TEST2"
+            },
+            {
+              "ID": "3",
+              "fact": "TEST3"
+            }
+          ],
+          "answer":
+          {
+            "ID": "4",
+            "fact": "OK"
+          }
+        }
+      ],
+      [
+        2,
+        {
+          "facts":
+          [
+            {
+              "ID": "1",
+              "fact": "TEST1"
+            },
+            {
+              "ID": "2",
+              "fact": "TEST2"
+            },
+            {
+              "ID": "3",
+              "fact": "TEST3"
+            }
+          ],
+          "answer":
+          {
+            "ID": "4",
+            "fact": "OK"
+          }
+        }
+      ],
+      [
+        3,
+          {
+            "facts":
+            [
+              {
+                "ID": "1",
+                "fact": "TEST1"
+              },
+              {
+                "ID": "2",
+                "fact": "TEST2"
+              },
+              {
+                "ID": "3",
+                "fact": "TEST3"
+              }
+            ],
+            "answer":
+            {
+              "ID": "4",
+              "fact": "OK"
+            }
+          }
+      ]
+    ],
+    "factsDataBase":
+    [
+      {
+        "ID": "1",
+        "fact": "TEST1"
+      },
+      {
+        "ID": "2",
+        "fact": "TEST2"
+      },
+      {
+        "ID": "3",
+        "fact": "TEST3"
+      }
+    ],
+
+    "finalAnswer":
+    {
+      "ID": "4",
+      "fact": "OK"
+    }
+  },
+]
+
