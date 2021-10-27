@@ -14,8 +14,16 @@ public class AbstractFact {
         return this.value;
     }
 
+    public void set_value(String value){
+        this.value = value;
+    }
+
     public String get_fact(){
         return this.fact;
+    }
+    
+    public void set_fact(String fact){
+        this.fact = fact;
     }
 
     @Override

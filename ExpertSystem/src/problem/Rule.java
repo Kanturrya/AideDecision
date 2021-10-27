@@ -10,10 +10,11 @@ public class Rule {
     
     //private int priority;
     private ArrayList<Fact> facts;
-    private Fact answer;
+    private ArrayList<Fact> answers;
 
     public Rule () {
-        this.facts = new ArrayList<Fact>();
+        this.facts = new ArrayList<>();
+        this.answers = new ArrayList<>();
     }
 
     public void addFact(Fact fact) {
@@ -25,11 +26,11 @@ public class Rule {
     } 
 
     public void addAnswer(Fact fact) {
-        this.answer = fact;
+        this.answers.add(fact);
     }
 
-    public Fact getAnswer() {
-        return this.answer;
+    public ArrayList<Fact> getAnswer() {
+        return this.answers;
     }
 
     public String toString() {
@@ -45,7 +46,7 @@ public class Rule {
             i++;
         }
         
-        res +=  "THEN " + this.answer.get_fact() + "\n";
+        res +=  "THEN " + this.answers.toString() + "\n";
         return res;
     }
     

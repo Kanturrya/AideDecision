@@ -1,4 +1,8 @@
 package chaining;
+import java.io.BufferedReader;
+import java.io.Console;
+import java.io.IOException;
+import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.Map;
 
@@ -12,62 +16,88 @@ import java.util.HashMap;
 public class BackwardChaining implements Resolution {
     
     private Problem problem;
-    
-    private ArrayList<Fact> factsDataBaseTMP;
-
     private Map<Integer, Rule> rules;
     private ArrayList<Fact> factDataBase;
 
     public BackwardChaining(Problem problem) {
 
-        this.factsDataBaseTMP = new ArrayList<>();
         this.problem = problem;
 
         this.rules = new HashMap<>(this.problem.getRules());
-        this.factDataBase = new ArrayList<>(this.problem.getFactsDataBase());
-
-        this.setFirstFactsForBackwardChaining();
-    }
-
-
-    //Méthode pour set les premiers facts dans la base de faits tmp (Ref : Problem)
-    public void setFirstFactsForBackwardChaining() {
-        this.factsDataBaseTMP = this.problem.getFactsFromFinalAnswer();
-        System.out.println(this.factsDataBaseTMP);
+        this.factDataBase = new ArrayList<>();
     }
 
     public String solver() {
 
-        //Si le problème n'a pas de Rules ou que la base de faits est vide
-        if(this.rules.isEmpty() || this.factsDataBaseTMP.isEmpty()){
-            return "Backward chaining : No solution found, Empty problem OR Empty facts database";
+        try{
+            this.test(this.problem.getFinalAnswer(), this.problem.getFactsDataBase());
+            
+        } catch (Exception e){
+            System.out.println(e);
         }
 
-        //Boucle sur les rules
-        for(Map.Entry<Integer, Rule> entry :this.rules.entrySet()) {
+        return this.factDataBase.toString();
+    }
 
-            //Si la réponse de la rule est dans la base de faits temporaire.
-            if(this.factsDataBaseTMP.contains(entry.getValue().getAnswer())){
-                
-                //Si la base de faits temporaire possède tous les facts de la base de faits alors nous avons trouvé une solution.
-                if(factsDataBaseTMP.containsAll(problem.getFactsDataBase())){                 
-                    return "\nBackward Chaining : \nAccepted with facts database : " + this.factsDataBaseTMP;
-                } 
-                //Si la réponse que je lis n'est pas dans la base de faits alors je l'ajoutes
-                if(!factsDataBaseTMP.containsAll(entry.getValue().getFacts())) {
-                    
-                    //Boucle sur les facts de la règle que je regarde
-                    for (Fact entry2 : entry.getValue().getFacts()) {
-                        
-                        //Si la base de faits tmp ne possède pas le fact alors je l'ajoute
-                        if(!factsDataBaseTMP.contains(entry2)) {
-                            factsDataBaseTMP.add(entry2);
-                        }
-                    }
-                    this.solver();
+    public boolean test(Fact but, ArrayList<Fact> factsBase) throws IOException{
+
+        System.out.println("Press Enter to continue");
+        BufferedReader reader1 = new BufferedReader(new InputStreamReader(System.in));
+        String read2 = reader1.readLine();
+
+        System.out.println("But: " + but);
+        boolean ok = false;
+      
+        for (Fact fact : factsBase) {
+            if(but.equals(fact))
+                ok = true;
+        }
+
+        
+
+        for(Map.Entry<Integer, Rule> rule : this.rules.entrySet()) {    
+            if(rule.getValue().getAnswer().contains(but)){
+                while(!ok){                 
+                    ok = isOk(rule.getValue().getFacts(), factsBase);
                 }
+            }     
+        }
+
+        if(!ok){
+            System.out.println("1 or 0");
+            BufferedReader reader = new BufferedReader(new InputStreamReader(System.in));
+            String read = reader.readLine();
+
+            if(read.equals("0")){
+                return false;
+            } else {
+                return true;
             }
         }
-        return "Backward chaining : No solution found";
+  
+        if(ok) {
+            factsBase.add(but);
+            this.factDataBase.add(but);
+        }
+
+        return ok;
+    }
+
+    public boolean isOk(ArrayList<Fact> buts, ArrayList<Fact> factsBase) throws IOException{
+        
+        boolean ok = true;
+
+        for (Fact but : buts) {        
+            ok = test(but, factsBase);
+        }
+
+        return ok;
+    }
+
+
+    @Override
+    public ArrayList<Fact> getFactDataBase() {
+        // TODO Auto-generated method stub
+        return null;
     }
 }

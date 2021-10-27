@@ -12,15 +12,15 @@ public class App {
 
         //JsonFileHandler js = new JsonFileHandler();
 
-        /*Fact fact1 = new Fact("Poste à responsabilité", "", Operator.EQ);
-        Fact fact2 = new Fact("Langues faciles", "", Operator.EQ);
-        Fact fact3 = new Fact("Néerlandais", "", Operator.EQ);
-        Fact fact4 = new Fact("Dynamique", "", Operator.EQ);
-        Fact fact5 = new Fact("Parle anglais", "", Operator.EQ);
-        Fact fact6 = new Fact("Bonne adaptabilité", "", Operator.EQ);
-        Fact fact7 = new Fact("Slave", "", Operator.EQ);
-        Fact fact8 = new Fact("Leadership", "", Operator.EQ);
-        Fact fact9 = new Fact("Accepté", "", Operator.EQ);
+        Fact fact1 = new Fact("Poste à responsabilité", "", Operator.NONE);
+        Fact fact2 = new Fact("Langues faciles", "", Operator.NONE);
+        Fact fact3 = new Fact("Néerlandais", "", Operator.NONE);
+        Fact fact4 = new Fact("Dynamique", "", Operator.NONE);
+        Fact fact5 = new Fact("Parle anglais", "", Operator.NONE);
+        Fact fact6 = new Fact("Bonne adaptabilité", "", Operator.NONE);
+        Fact fact7 = new Fact("Slave", "", Operator.NONE);
+        Fact fact8 = new Fact("Leadership", "", Operator.NONE);
+        Fact fact9 = new Fact("Accepté", "", Operator.NONE);
 
         Rule rule1 = new Rule();
         rule1.addFact(fact1);
@@ -77,30 +77,26 @@ public class App {
         problem.addFactDataBase(fact7);
         problem.addFactDataBase(fact1);
 
-        problem.createPackedRules();*/
-        
-        Fact fact5 = new Fact("Sexe", "Homme", Operator.EQ);
-        Fact fact2 = new Fact("Age", "19.0", Operator.NONE);
-
-        Fact fact1 = new Fact("Age", "18.0", Operator.SUPEQ);
-        Fact fact4 = new Fact("Sexe", "Femme", Operator.NEQ);
-
-        Fact fact3 = new Fact("Homme", "", Operator.NONE);
-        Fact fact6 = new Fact("Majeur", "18.0", Operator.SUPEQ);
-
-        Fact fact7 = new Fact("Ok", "", Operator.NONE);
+        //problem.createPackedRules();
+        /*
+    
 
         Rule r1 = new Rule();
+        Fact fact1 = new Fact("Age", "18.0", Operator.SUPEQ);
         r1.addFact(fact1);
-        r1.addAnswer(fact3);
+        Fact fact6 = new Fact("Age", "18.0", Operator.NONE);
+        r1.addAnswer(fact6);
 
         Rule r2 = new Rule();
+        Fact fact4 = new Fact("Sexe", "Femme", Operator.NEQ);
         r2.addFact(fact4);
-        r2.addAnswer(fact6);
+        Fact fact3 = new Fact("Sexe", "Homme", Operator.NONE);
+        r2.addAnswer(fact3);
 
         Rule r3 = new Rule();
         r3.addFact(fact3);
         r3.addFact(fact6);
+        Fact fact7 = new Fact("Ok", "", Operator.NONE);
         r3.addAnswer(fact7);
 
         Problem problem = new Problem(fact7);
@@ -109,14 +105,18 @@ public class App {
         problem.addRule(r2);
         problem.addRule(r3);
 
+
+        Fact fact5 = new Fact("Sexe", "Homme", Operator.EQ);
+        Fact fact2 = new Fact("Age", "19.0", Operator.EQ);
         problem.addFactDataBase(fact2);
         problem.addFactDataBase(fact5);
-
+*/
 
         Solver solver = new Solver();
 
         solver.setSolver(new ForwardChaining(problem));
-        System.out.println(solver.solve());
+        System.out.println("Retour: " + solver.solve());
+
         solver.setSolver(new BackwardChaining(problem));
         System.out.println(solver.solve());
 

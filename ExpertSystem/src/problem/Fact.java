@@ -19,6 +19,14 @@ public class Fact extends AbstractFact{
         this.operator = operator;
     }
 
+    public String get_operator(){
+        return this.operator.toString();
+    }
+
+    public void set_operator(Operator operator){
+        this.operator = operator;
+    }
+
     @Override
     public boolean equals(Object obj){
         
@@ -34,7 +42,7 @@ public class Fact extends AbstractFact{
         if(this.get_fact().equals(fact2.get_fact())) {
 
             if(this.operator.equals(Operator.NONE)){
-                return false;
+                return true;
             } else if(this.operator.equals(Operator.EQ)){
                 if(this.get_value().equals(fact2.get_value())){
                     return true;

@@ -12,7 +12,6 @@ public class ForwardChaining implements Resolution{
 
     private Map<Integer, Rule> rules;
     private ArrayList<Fact> factDataBase;
-    private ArrayList<Fact> factDataBaseTMP;
 
     private Problem problem;
 
@@ -21,42 +20,57 @@ public class ForwardChaining implements Resolution{
         this.problem = problem;
         this.rules = new HashMap<>(this.problem.getRules());
         this.factDataBase = new ArrayList<>(this.problem.getFactsDataBase());
-        this.factDataBaseTMP = new ArrayList<>();
+    }
+
+    public ArrayList<Fact> getFactDataBase(){
+        return this.factDataBase;
     }
 
     public String solver(){
         
-        //Si le problème n'a pas de Rules ou que la base de faits est vide
-        if(this.rules.isEmpty() || this.factDataBase.isEmpty()){
-            return "Forward chaining : No solution found, Empty problem OR Empty facts database";
-        }
+        boolean stop = false;
+        ArrayList<Fact> seenFactsDB = new ArrayList<>();
+        ArrayList<Fact> seenFactsRule = new ArrayList<>();
 
-        //Boucle sur les rules.
-        for(Map.Entry<Integer, Rule> rules : this.rules.entrySet()) {
+        while(!stop){
+            
+            stop = true;
 
-            for (Fact factRule : rules.getValue().getFacts()) {
+            for(Map.Entry<Integer, Rule> rule : this.rules.entrySet()){
+                
+                boolean declanchable = false;
 
-                for (Fact factDB : factDataBase) {
+                for(Fact factDB : this.factDataBase) {
 
-                    if(factRule.equals(factDB)){
-                        System.out.println(factDB + " " + factRule);
-                        System.out.println(factRule.equals(factDB));
-                        if(!this.factDataBaseTMP.contains(rules.getValue().getAnswer()) && !this.factDataBase.contains(rules.getValue().getAnswer())){
-                            this.factDataBaseTMP.add(rules.getValue().getAnswer());
+                    for (Fact factRule : rule.getValue().getFacts()) {
+
+                        if(factRule.equals(factDB)){
+                            seenFactsDB.add(factDB);
+                            seenFactsRule.add(factRule);
                         }
-                    } else {
-                        this.factDataBaseTMP.clear();
-                    }
-                }  
-            }
-            this.factDataBase.addAll(this.factDataBaseTMP);
-            this.factDataBaseTMP.clear();
+                    }                 
+                }
 
-            //Si on a la réponse final alors on valide la recherche.
-            if(this.factDataBase.contains(this.problem.getFinalAnswer())){
-                return "\nForwardChaining : \nAccepted with facts database : " + this.factDataBase;
+                if(factDataBase.containsAll(seenFactsDB) && seenFactsRule.containsAll(rule.getValue().getFacts())){
+                    declanchable = true;
+                } else {
+                    declanchable = false;
+                }
+                seenFactsDB.clear();
+                seenFactsRule.clear();
+     
+                if(declanchable){
+                    stop = false;   
+                    for (Fact factAnswer : rule.getValue().getAnswer()) {
+                        if(!this.factDataBase.contains(factAnswer))
+                            this.factDataBase.add(factAnswer);
+                    }                 
+                    
+                    this.rules.remove(rule.getKey());
+                    break;
+                }            
             }
-        }  
-        return "Forward chaining : No solution found";
+        }
+        return this.factDataBase.toString();
     }
 }
